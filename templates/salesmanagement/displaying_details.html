@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>displaying details</title>
+</head>
+<body>
+<table border="1">
+         <tr>
+         <th> Customer name</th>
+             <th> customer id</th>
+             <th>customer address</th>
+
+         </tr>
+         {% for i in object_list %}
+         <tr>
+             <td> {{ i.customer_name }}</td>
+         <td> {{ i.customer_id }}</td>
+         <td> {{ i.customer_address }}</td>
+         </tr>
+         {% endfor %}
+     </table>
+</body>
+</html>

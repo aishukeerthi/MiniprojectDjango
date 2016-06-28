@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> Product List</title>
+</head>
+<body>
+
+     <table border="1">
+         <tr>
+             <th> product name</th>
+             <th> product price</th>
+             <th> product discount</th>
+             <th> product count</th>
+
+         </tr>
+         {% for i in object_list %}
+         <tr>
+             <td> {{ i.product_name }}</td>
+         <td> {{ i.product_price }}</td>
+         <td> {{ i.product_discount}}</td>
+         <td> {{  i.product_count }}</td>
+         </tr>
+         {% endfor %}
+     </table>
+</body>
+</html>
