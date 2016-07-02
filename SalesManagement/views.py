@@ -80,7 +80,7 @@ class SellerCreate(CreateView):
 
 
     def get_success_url(self):
-        return reverse_lazy('hello')
+        return reverse_lazy('seller-details', kwargs= { 'pk' : self.object.pk} )
         # return super(CustomerCreate, self).get_success_url()
 
 class CustomerDetailsView(DetailView):
@@ -116,7 +116,7 @@ class ProductUpdateView(UpdateView):
               ]
 
     def get_success_url(self):
-        return reverse_lazy('product-details')
+        return reverse_lazy('product-details', kwargs= {'pk' : self.object.pk} )
 
 class ProductDeleteView(DeleteView):
     model = Product
@@ -140,3 +140,4 @@ class SellerUpdateView(UpdateView):
 
 class ProductList(ListView):
     model= Product
+    template_name = 'SalesManagement/product_seller.html'
