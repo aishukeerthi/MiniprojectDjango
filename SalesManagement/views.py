@@ -5,36 +5,47 @@ from django.shortcuts import render, redirect
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
-from django.http import HttpRequest
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 from SalesManagement.models import Customer, Seller, Product
 
-
+@login_required(login_url='/sales/login')
 def test(request):
 	return render(request, 'SalesManagement/testing.html',{'username':'kiriti'})
+
 
 def test1(request):
     return render(request, 'updated.html')
 
+#To authenticate the user manually. Alternate way is to use django provided view.
 def authenticate_user(request):
 
-    if request.method == "POST":
-        print "IS THIS THING EVEN WORKING"
-        print request.POST
-        for key,value in request.POST.items():
-            print key, value
+    if request.method == "POST":    #This case occurs when the form is being submitted.
         username = request.POST.get('username')
         password = request.POST.get('password')
-        return render(request,'SalesManagement/testing.html',{'username':username, 'password':password},content_type='html')
-    else:
-        username = request.GET.get('username')
-        password = request.GET.get('password')
-        
-        return render(request,'SalesManagement/testing.html',{'username':'Get working'})    
+        user = authenticate(username = username, password = password)
+        if user is not None:
+            if user.is_active:
+                login(request,user)
+                #Redirect to a success page
+                return redirect('product-list')
+            else:
+                #Return a disabled account message
+                return render(request,'SalesManagement/login.html',{'message':'Account disabled, try another account'})    
+        else:
+            return render(request,'SalesManagement/login.html',{'message':'Details invalid, please try again'})
+        #return render(request,'SalesManagement/testing.html',{'username':username, 'password':password},content_type='html')
+    else:        
+        return render(request,'SalesManagement/login.html')    #This case occurs when the URL is typed in the address bar.
 
     #Write the authentication code here
 
-    
+def logout_view(request):
+    logout(request)
+    return render(request,'SalesManagement/login.html',{'message':'Logged out successfully, enter the details below to login again'})
+
+
 class CustomerCreate(CreateView):
     model =  Customer
     fields =  [  'customer_name',
