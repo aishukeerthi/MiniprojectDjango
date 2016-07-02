@@ -24,8 +24,9 @@ class CustomerCreate(CreateView):
     'customer_phone',
                  ]
 
+    #The object that is just created can be accessed by 'self.object'
     def get_success_url(self):
-        return reverse_lazy('customer-details' , kwargs= { 'pk' : self.kwargs['pk'] })
+        return reverse_lazy('customer-details' , kwargs= { 'pk' : self.object.pk})
 
 class ProductCreate(CreateView):
     model = Product
