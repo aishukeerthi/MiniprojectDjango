@@ -75,10 +75,8 @@ class CustomerUpadateView(UpdateView):
 
 
     def get_success_url(self):
-        temp_pk = self.kwargs['pk']
-        temp_url = "127.0.0.1:8000/sales/customer/details/"
-        return reverse(temp_url)
-    # return super(CustomerCreate, self).get_success_url()
+       return reverse_lazy('customer-details', kwargs= { 'pk' : self.object.pk} )
+
 
 class ProductUpdateView(UpdateView):
     model = Product
