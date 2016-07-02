@@ -1,5 +1,5 @@
 from django.core.urlresolvers import reverse_lazy, reverse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 from django.views.generic.detail import DetailView
@@ -11,7 +11,7 @@ from SalesManagement.models import Customer, Seller, Product
 
 
 def test(request):
-    return render(request, 'hello.html')
+	return redirect('customer-details', 1)
 
 def test1(request):
     return render(request, 'updated.html')
