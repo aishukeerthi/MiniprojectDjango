@@ -13,5 +13,6 @@ urlpatterns= [
     url(r'^seller/(?P<pk>[0-9]+)/details/$', views.SellerDetailsView.as_view(), name='seller-details'),
     url(r'^customer/(?P<pk>[0-9]+)/update/$', views.CustomerUpadateView.as_view(), name='customer-Update'),
     url(r'^seller/(?P<pk>[0-9]+)/update/$', views.SellerUpdateView.as_view(), name='seller-Update'),
+    url(r'^product/(?P<pk>[0-9]+)/update/$', views.ProductUpdateView.as_view(), name='product-update'),
     url(r'^product/(?P<pk>[0-9]+)/delete/$', views.ProductDeleteView.as_view(), name='product-delete'),
 ]
