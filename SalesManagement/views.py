@@ -11,11 +11,30 @@ from SalesManagement.models import Customer, Seller, Product
 
 
 def test(request):
-	return redirect('customer-details', 1)
+	return render(request, 'SalesManagement/testing.html',{'username':'kiriti'})
 
 def test1(request):
     return render(request, 'updated.html')
 
+def authenticate_user(request):
+
+    if request.method == "POST":
+        print "IS THIS THING EVEN WORKING"
+        print request.POST
+        for key,value in request.POST.items():
+            print key, value
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        return render(request,'SalesManagement/testing.html',{'username':username, 'password':password},content_type='html')
+    else:
+        username = request.GET.get('username')
+        password = request.GET.get('password')
+        
+        return render(request,'SalesManagement/testing.html',{'username':'Get working'})    
+
+    #Write the authentication code here
+
+    
 class CustomerCreate(CreateView):
     model =  Customer
     fields =  [  'customer_name',
