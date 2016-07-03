@@ -8,8 +8,12 @@
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
 </head>
 <body>
-    <table border="1">
-        <tr>
+
+    <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table">
+            <tr>
              <th> product name</th>
              <th> product price</th>
              <th> product discount</th>
@@ -17,9 +21,9 @@
              <th> Enter the Quantity</th>
              <th> Add to Cart</th>
 
-         </tr>
-         {% for i in object_list %}
-        <tr class="simpleCart_shelfItem">
+            </tr>
+        {% for i in object_list %}
+        <tr class="simpleCart_shelfItem active">
         <td> <span class="item_name"> {{ i.product_name }} </span> </td>
         <td> <span class="item_price"> {{ i.product_price }} </span> </td>
         <td> {{ i.product_discount}}</td>
@@ -28,14 +32,23 @@
         <td>  <a class="item_add" href="javascript:;">Add to Cart </a> </td>
         </tr>
         {% endfor %}
-
-    </table>
-
-    
-    <span class="simpleCart_quantity"></span> items - <span class="simpleCart_total"></span>
-    <a href="javascript:;" class="simpleCart_checkout">Checkout</a>
-    <a href="javascript:;" class="simpleCart_empty">Empty Cart</a>
-    <div class="simpleCart_items"></div>
+            </table>
+            <p>
+                Cart Value: <span class="simpleCart_total"></span>
+            </p>
+            <div>
+                Cart Items: <span class="simpleCart_quantity"></span>
+            </div>
+             
+            <button type="button" class="btn btn-info simpleCart_empty" href="javascript:;">
+                EmptyCart
+            </button> 
+            <button type="button" class="btn btn-success simpleCart_checkout" href="javascript:;">
+                Checkout
+            </button>
+        </div>
+    </div>
+</div>
     {% load static from staticfiles %}
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
