@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.views.generic import TemplateView
 from . import views
 
 urlpatterns= [
@@ -15,4 +16,5 @@ urlpatterns= [
     url(r'^seller/(?P<pk>[0-9]+)/update/$', views.SellerUpdateView.as_view(), name='seller-Update'),
     url(r'^product/(?P<pk>[0-9]+)/update/$', views.ProductUpdateView.as_view(), name='product-update'),
     url(r'^product/(?P<pk>[0-9]+)/delete/$', views.ProductDeleteView.as_view(), name='product-delete'),
+    url(r'^register/$', TemplateView.as_view(template_name='SalesManagement/landing_page.html'), name='register'),
 ]
