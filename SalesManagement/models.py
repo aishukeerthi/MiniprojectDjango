@@ -30,7 +30,7 @@ class Custom_User(models.Model):
 
 class Product(models.Model):
     product_name=models.CharField(max_length=25)
-    product_seller=models.ForeignKey(Custom_User, limit_choices_to={'role':'Seller'})
+    product_seller=models.ForeignKey(Seller)
     product_discount=models.IntegerField(default=0)
     product_price=models.IntegerField()
     product_count=models.IntegerField()
