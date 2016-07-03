@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product List </title>
+</head>
+<body>
+  <table border="1">
+         <tr>
+             <th> product name</th>
+             <th> product price</th>
+             <th> product discount</th>
+             <th> product count</th>
+             <th> Do u want to delete product?</th>
+             <th> do u want to update product?</th>
+
+         </tr>
+         {% for i in object_list %}
+         <tr>
+             <td> {{ i.product_name }}</td>
+         <td> {{ i.product_price }}</td>
+         <td> {{ i.product_discount}}</td>
+         <td> {{ i.product_count }}</td>
+         <td>  <a href="{% url 'product-delete' pk=i.pk %}" class="btn btn-success">Delete  product </a> </td>
+         <td>  <a href="{% url 'product-update' pk=i.pk %}" class="btn btn-success">Update  product </a></td>
+         </tr>
+         {% endfor %}
+
+     </table>
+          <a href="{%url 'product-create' %}" class="btn btn-success">Create  product </a>
+</body>
+</html>
