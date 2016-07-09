@@ -32,29 +32,14 @@ def authenticate_user(request):
                 return redirect('product-list')
             else:
                 #Return a disabled account message
-                return render(request,'SalesManagement/login.html',{'message':'Account disabled, try another account'})    
+                return render(request,'SalesManagement/login.html',{'message':'Account disabled, try another account'})
         else:
             return render(request,'SalesManagement/login.html',{'message':'Details invalid, please try again'})
         #return render(request,'SalesManagement/testing.html',{'username':username, 'password':password},content_type='html')
-    else:        
+    else:
         return render(request,'SalesManagement/login.html')    #This case occurs when the URL is typed in the address bar.
 
 
-def add_to_cart(request, product_id, quantity):
-    product_id = request.POST.get('id',1)
-    product = Product.objects.get(id=int(product_id))
-    quantity = request.POST.get('quantity',1)
-
-    cart = Cart(request)
-    cart.add(product, product.unit_price, quantity)
-
-def remove_from_cart(request, product_id):
-    product = Product.objects.get(id=product_id)
-    cart = Cart(request)
-    cart.remove(product)
-
-def get_cart(request):
-    return render(request,'SalesManagement/cart.html', {'cart':Cart(request)})
 
 def logout_view(request):
     logout(request)
@@ -100,6 +85,7 @@ class SellerCreate(CreateView):
 
 class CustomerDetailsView(DetailView):
     model= Customer
+    template_name = 'SalesManagement/customer_details1.html'
     context_object_name = 'cust'
 
 
@@ -110,6 +96,7 @@ class ProductDetailsView(DetailView):
 
 class SellerDetailsView(DetailView):
     model=Seller
+    template_name = 'SalesManagement/seller_details1.html'
     context_object_name = 'sell'
 
 class CustomerUpadateView(UpdateView):
@@ -155,7 +142,7 @@ class SellerUpdateView(UpdateView):
 
 class ProductList(ListView):
     model= Product
-    template_name = 'SalesManagement/product_seller.html'
+    template_name = 'SalesManagement/product_list1.html'
 
 class CustomerProductList(ListView):
     model = Product
