@@ -2,6 +2,7 @@ from django.core.urlresolvers import reverse_lazy, reverse
 from django.shortcuts import render, redirect
 
 # Create your views here.
+from django.views.generic.base import View
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
@@ -46,17 +47,21 @@ def logout_view(request):
     return render(request,'SalesManagement/login.html',{'message':'Logged out successfully, enter the details below to login again'})
 
 
-class CustomerCreate(CreateView):
-    model =  Customer
-    fields =  [  'customer_name',
-    'customer_adress',
-    'customer_email',
-    'customer_phone',
-                 ]
+class CustomerCreate(View):
+    def get(self, request):
+        return render(request, 'SalesManagement/customer_create1.html')
 
-    #The object that is just created can be accessed by 'self.object'
-    def get_success_url(self):
-        return reverse_lazy('customer-details' , kwargs= { 'pk' : self.object.pk})
+    def post(self, request):
+        name = request.POST.get('customer_name')
+        address = request.POST.get('customer_address')
+        email = request.POST.get('customer_email')
+        phone = request.POST.get('customer_phone')
+
+        c = Customer(customer_name = name, customer_adress = address, customer_email = email, customer_phone = phone)
+        c.save()
+
+        return redirect(reverse_lazy('customer-details', kwargs= { 'pk' : c.pk}))
+
 
 class ProductCreate(CreateView):
     model = Product
@@ -65,7 +70,7 @@ class ProductCreate(CreateView):
     'product_discount',
     'product_price',
     'product_count',
-              ]
+    ]
 
     def get_success_url(self):
         return reverse_lazy('product-list')
@@ -111,6 +116,23 @@ class CustomerUpadateView(UpdateView):
 
 
 class ProductUpdateView(UpdateView):
+    # def get(self, request):
+    #     return render(request, 'SalesManagement/product_update_form.html')
+
+    # def post(self, request, product_id):
+    #     price = request.POST.get('product_price')
+    #     discount = request.POST.get('product_discount')
+    #     count = request.POST.get('product_count')
+        
+    #     #Get the object based on product_id and edit the details and save the object
+    #     p = Product.objects.get(pk = product_id)
+    #     p.product_price = price
+    #     p.product_discount = discount
+    #     p.product_count = count
+    #     p.save()
+
+    #     return redirect( reverse_lazy(('product-details'), kwargs= {'pk' : p.pk}) )
+    
     model = Product
     fields = ['product_price',
               'product_discount',
