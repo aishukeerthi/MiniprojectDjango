@@ -137,7 +137,7 @@ class ProductUpdateView(UpdateView):
     fields = ['product_price',
               'product_discount',
               'product_count',
-              ]
+    ]
 
     def get_success_url(self):
         return reverse_lazy('product-details', kwargs= {'pk' : self.object.pk} )
@@ -147,7 +147,7 @@ class ProductDeleteView(DeleteView):
     fields = ['product_name', 'product_price' , 'product_discount', 'product_count']
     success_url = reverse_lazy('product-list')
     # def get_success_url(self):
-     #   return reverse_lazy('product-list')
+    #   return reverse_lazy('product-list')
 
 
 class SellerUpdateView(UpdateView):
