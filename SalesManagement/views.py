@@ -30,7 +30,7 @@ def authenticate_user(request):
             if user.is_active:
                 login(request,user)
                 #Redirect to a success page
-                return redirect('product-list')
+                return redirect('register')
             else:
                 #Return a disabled account message
                 return render(request,'SalesManagement/login.html',{'message':'Account disabled, try another account'})
