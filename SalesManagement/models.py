@@ -8,7 +8,8 @@ class Seller(models.Model):
     seller_address=models.CharField(max_length=25)
     seller_email=models.EmailField()
     seller_phone=models.CharField(max_length=10)
-
+    seller_password = models.CharField(max_length=20, default='password')
+    
     def __str__(self):
         return self.seller_name
 
@@ -17,6 +18,8 @@ class Customer(models.Model):
     customer_adress= models.CharField(max_length=40)
     customer_email=models.EmailField()
     customer_phone=models.CharField(max_length=10)
+    customer_password = models.CharField(max_length=20, default='password')
+    
     def __str__(self):
         return self.customer_name
 

@@ -23,23 +23,33 @@ def test1(request):
 def authenticate_user(request):
 
     if request.method == "POST":    #This case occurs when the form is being submitted.
-        username = request.POST.get('username')
+        email = request.POST.get('email')
         password = request.POST.get('password')
-        user = authenticate(username = username, password = password)
-        if user is not None:
-            if user.is_active:
-                login(request,user)
-                #Redirect to a success page
-                return redirect('register')
-            else:
-                #Return a disabled account message
-                return render(request,'SalesManagement/login.html',{'message':'Account disabled, try another account'})
+        role = request.POST.get('role')
+
+        if role == "customer":
+            obj = Customer.objects.filter(customer_email = email)
         else:
-            return render(request,'SalesManagement/login.html',{'message':'Details invalid, please try again'})
-        #return render(request,'SalesManagement/testing.html',{'username':username, 'password':password},content_type='html')
+            obj = Seller.objects.filter(seller_email = email)
+
+        if len(obj) == 0: #Invalid email
+            return render(request,'SalesManagement/login.html',{'message':'Email Invalid, please try again'})
+        elif len(obj) > 1: #Duplicate email
+            return render(request,'SalesManagement/login.html',{'message':'Duplicate email, please check'})
+        else:   #Check the password
+            if role == "customer":
+                redirect_url = 'customer-details'
+                original_password = obj[0].customer_password
+            else:
+                redirect_url = 'seller-details'
+                original_password = obj[0].seller_password
+
+            if original_password == password:
+                return redirect(reverse_lazy(redirect_url, kwargs= { 'pk' : obj[0].pk}))
+            else:   #Wrong password
+                return render(request,'SalesManagement/login.html',{'message':'Password Incorrect!!'})
     else:
         return render(request,'SalesManagement/login.html')    #This case occurs when the URL is typed in the address bar.
-
 
 
 def logout_view(request):
@@ -56,8 +66,8 @@ class CustomerCreate(View):
         address = request.POST.get('customer_address')
         email = request.POST.get('customer_email')
         phone = request.POST.get('customer_phone')
-
-        c = Customer(customer_name = name, customer_adress = address, customer_email = email, customer_phone = phone)
+        password = request.POST.get('customer_password')
+        c = Customer(customer_name = name, customer_adress = address, customer_email = email, customer_phone = phone, customer_password = password)
         c.save()
 
         return redirect(reverse_lazy('customer-details', kwargs= { 'pk' : c.pk}))
@@ -76,17 +86,20 @@ class ProductCreate(CreateView):
         return reverse_lazy('product-list')
 
 
-class SellerCreate(CreateView):
-    model = Seller
-    fields = ['seller_name',
-    'seller_address',
-    'seller_email',
-    'seller_phone',]
+class SellerCreate(View):
+    def get(self, request):
+        return render(request, 'SalesManagement/seller_create1.html')
 
+    def post(self, request):
+        name = request.POST.get('seller_name')
+        address = request.POST.get('seller_address')
+        email = request.POST.get('seller_email')
+        phone = request.POST.get('seller_phone')
+        password = request.POST.get('seller_password')
+        c = Seller(seller_name = name, seller_address = address, seller_email = email, seller_phone = phone, seller_password = password)
+        c.save()
 
-    def get_success_url(self):
-        return reverse_lazy('seller-details', kwargs= { 'pk' : self.object.pk} )
-        # return super(CustomerCreate, self).get_success_url()
+        return redirect(reverse_lazy('seller-details', kwargs= { 'pk' : c.pk}))
 
 class CustomerDetailsView(DetailView):
     model= Customer
